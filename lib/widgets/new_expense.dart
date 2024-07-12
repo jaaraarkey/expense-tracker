@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:expense_tracker/model/expense.dart';
 
 final formatter = DateFormat.yMEd();
 
@@ -16,6 +17,7 @@ class _NewExpenseState extends State<NewExpense> {
   final _titleController = TextEditingController();
   final _amountController = TextEditingController();
   DateTime? _selectedDate;
+  Category? _selectedCategory = Category.bills;
 
   void _dayPicker() async {
     final now = DateTime.now();
@@ -29,8 +31,33 @@ class _NewExpenseState extends State<NewExpense> {
     );
     setState(() {
       _selectedDate = pickedDate;
-      ;
     });
+  }
+
+  void _submitExpensesData() {
+    final enteredAmount = double.tryParse(_amountController.text);
+    final amountIsInvalid = _titleController.text == null ||
+        enteredAmount == null ||
+        enteredAmount <= 0 ||
+        _selectedDate == null;
+
+    if (_titleController.text.trim().isEmpty ||
+        amountIsInvalid ||
+        _selectedDate == null) {
+      showDialog(
+          context: context,
+          builder: (ctx) => AlertDialog(
+                title: const Text('Invalid input'),
+                content: const Text('Please enter a valid title and amount'),
+                actions: [
+                  TextButton(
+                      onPressed: () {
+                        Navigator.pop(ctx);
+                      },
+                      child: const Text('Okay'))
+                ],
+              ));
+    }
   }
 
   @override
@@ -74,40 +101,54 @@ class _NewExpenseState extends State<NewExpense> {
               ),
               const SizedBox(width: 16),
               Expanded(
-                  child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  IconButton(
-                    onPressed: _dayPicker,
-                    icon: const Icon(Icons.calendar_today),
-                  ),
-                  Text(
-                    _selectedDate == null
-                        ? 'no date selected'
-                        : formatter.format(_selectedDate!),
-                  ),
-                ],
-              ))
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    IconButton(
+                      onPressed: _dayPicker,
+                      icon: const Icon(Icons.calendar_today),
+                    ),
+                    Text(
+                      _selectedDate == null
+                          ? 'no date selected'
+                          : formatter.format(_selectedDate!),
+                    ),
+                  ],
+                ),
+              )
             ],
           ),
+          const SizedBox(height: 16),
           Padding(
             padding: const EdgeInsets.only(top: 20.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
+                DropdownButton(
+                    value: _selectedCategory,
+                    items: Category.values
+                        .map((category) => DropdownMenuItem(
+                              value: category,
+                              child: Text(
+                                category.name.toUpperCase(),
+                              ),
+                            ))
+                        .toList(),
+                    onChanged: (value) {
+                      if (value == null) return;
+                      setState(() {
+                        _selectedCategory = value;
+                      });
+                    }),
                 TextButton(
                   onPressed: () {
                     Navigator.pop(context);
-                    // print(_amountController.text);
                   },
                   child: const Text('cancel'),
                 ),
                 ElevatedButton(
-                  onPressed: () {
-                    print(_titleController.text);
-                    print(_amountController.text);
-                  },
+                  onPressed: _submitExpensesData,
                   child: const Text('Add Expense'),
                 ),
               ],

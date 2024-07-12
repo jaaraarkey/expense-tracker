@@ -37,6 +37,5 @@ class Expense {
 
   get formattedDate {
     return formatter.format(date);
-    ;
   }
 }
