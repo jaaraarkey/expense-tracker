@@ -1,11 +1,3 @@
-# expense_tracker
-
-A new Flutter project.
-
-Sure, I can help you draft a README for your simple Flutter app, Expense Tracker. Here's a sample README:
-
----
-
 # Expense Tracker
 
 Expense Tracker is a simple and intuitive Flutter application designed to help you keep track of your expenses. With a clean user interface and easy-to-use features, you can log your daily expenditures and view your spending habits over time.
