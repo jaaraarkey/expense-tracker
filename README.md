@@ -53,20 +53,6 @@ Once you have the app running, you can start tracking your expenses:
    - Go to the 'Reports' tab to see visual representations of your spending.
    - Analyze your spending patterns with pie charts and bar graphs.
 
-ToDo:
-## Screenshots
-
-Here are some screenshots of the Expense Tracker app:
-
-### Home Screen
-![Home Screen](screenshots/home.png)
-
-### Add Expense
-![Add Expense](screenshots/add_expense.png)
-
-### Expense Summary
-![Expense Summary](screenshots/summary.png)
-
 ## Contributing
 
 We welcome contributions to make Expense Tracker better. If you have suggestions or would like to contribute, please follow these steps:
