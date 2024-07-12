@@ -21,7 +21,8 @@ Expense Tracker is a simple and intuitive Flutter application designed to help y
 
 To run this app on your local machine, follow these steps:
 
-1. **Clone the repository:** ```bash
+1. **Clone the repository:** 
+   ```bash
    git clone https://github.com/jaaraarkey/expense-tracker.git
    ```
 
