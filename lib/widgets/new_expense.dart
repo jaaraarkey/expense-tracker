@@ -5,7 +5,9 @@ import 'package:expense_tracker/model/expense.dart';
 final formatter = DateFormat.yMEd();
 
 class NewExpense extends StatefulWidget {
-  const NewExpense({super.key});
+  const NewExpense({super.key, required this.onAddExpense});
+
+  final void Function(Expense expense) onAddExpense;
 
   @override
   State<NewExpense> createState() {
@@ -17,7 +19,7 @@ class _NewExpenseState extends State<NewExpense> {
   final _titleController = TextEditingController();
   final _amountController = TextEditingController();
   DateTime? _selectedDate;
-  Category? _selectedCategory = Category.bills;
+  Category? _selectedCategory = Category.other;
 
   void _dayPicker() async {
     final now = DateTime.now();
@@ -36,28 +38,37 @@ class _NewExpenseState extends State<NewExpense> {
 
   void _submitExpensesData() {
     final enteredAmount = double.tryParse(_amountController.text);
-    final amountIsInvalid = _titleController.text == null ||
-        enteredAmount == null ||
-        enteredAmount <= 0 ||
-        _selectedDate == null;
+    final amountIsInvalid =
+        enteredAmount == null || enteredAmount <= 0 || _selectedDate == null;
 
     if (_titleController.text.trim().isEmpty ||
         amountIsInvalid ||
         _selectedDate == null) {
       showDialog(
-          context: context,
-          builder: (ctx) => AlertDialog(
-                title: const Text('Invalid input'),
-                content: const Text('Please enter a valid title and amount'),
-                actions: [
-                  TextButton(
-                      onPressed: () {
-                        Navigator.pop(ctx);
-                      },
-                      child: const Text('Okay'))
-                ],
-              ));
+        context: context,
+        builder: (ctx) => AlertDialog(
+          title: const Text('Oops! \nMore details needed'),
+          content: const Text('Please enter title, amount and date'),
+          actions: [
+            TextButton(
+                onPressed: () {
+                  Navigator.pop(ctx);
+                },
+                child: const Text('Okay'))
+          ],
+        ),
+      );
+      return;
     }
+    widget.onAddExpense(
+      Expense(
+        title: _titleController.text,
+        amount: enteredAmount,
+        date: _selectedDate!,
+        category: _selectedCategory ?? Category.other,
+      ),
+    );
+    Navigator.pop(context);
   }
 
   @override
@@ -78,7 +89,7 @@ class _NewExpenseState extends State<NewExpense> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(16.0),
+      padding: const EdgeInsets.fromLTRB(16, 48, 16, 16),
       child: Column(
         children: [
           TextField(
@@ -99,12 +110,37 @@ class _NewExpenseState extends State<NewExpense> {
                   ),
                 ),
               ),
-              const SizedBox(width: 16),
+              // const SizedBox(width: 16),
+            ],
+          ),
+          const SizedBox(height: 16),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              DropdownButton(
+                  value: _selectedCategory,
+                  items: Category.values
+                      .map((category) => DropdownMenuItem(
+                            value: category,
+                            child: Text(
+                              category.name.toUpperCase(),
+                            ),
+                          ))
+                      .toList(),
+                  onChanged: (value) {
+                    if (value == null) return;
+                    setState(() {
+                      _selectedCategory = value;
+                    });
+                  }),
               Expanded(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
+                    const SizedBox(
+                      height: 16,
+                    ),
                     IconButton(
                       onPressed: _dayPicker,
                       icon: const Icon(Icons.calendar_today),
@@ -119,28 +155,11 @@ class _NewExpenseState extends State<NewExpense> {
               )
             ],
           ),
-          const SizedBox(height: 16),
           Padding(
-            padding: const EdgeInsets.only(top: 20.0),
+            padding: const EdgeInsets.fromLTRB(0, 24, 0, 16),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                DropdownButton(
-                    value: _selectedCategory,
-                    items: Category.values
-                        .map((category) => DropdownMenuItem(
-                              value: category,
-                              child: Text(
-                                category.name.toUpperCase(),
-                              ),
-                            ))
-                        .toList(),
-                    onChanged: (value) {
-                      if (value == null) return;
-                      setState(() {
-                        _selectedCategory = value;
-                      });
-                    }),
                 TextButton(
                   onPressed: () {
                     Navigator.pop(context);
