@@ -76,7 +76,7 @@ void main() {
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(0),
                 side: const BorderSide().copyWith(
-                    color: Color.fromARGB(255, 45, 45, 45), width: 0)),
+                    color: const Color.fromARGB(255, 45, 45, 45), width: 0)),
             elevation: 1),
       ),
       theme: ThemeData(
