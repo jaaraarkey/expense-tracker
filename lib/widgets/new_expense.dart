@@ -1,3 +1,6 @@
+import 'dart:io';
+import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:expense_tracker/model/expense.dart';
@@ -36,6 +39,39 @@ class _NewExpenseState extends State<NewExpense> {
     });
   }
 
+  void _showDialog() {
+    if (Platform.isIOS) {
+      showCupertinoDialog(
+          context: context,
+          builder: (ctx) => CupertinoAlertDialog(
+                  title: const Text('Oops! \nMore details needed'),
+                  content: const Text('Please enter title, amount and date'),
+                  actions: [
+                    TextButton(
+                        onPressed: () {
+                          Navigator.pop(ctx);
+                        },
+                        child: const Text('Okay'))
+                  ]));
+    } else {
+      showDialog(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          title: const Text('Oops! \nMore details needed'),
+          content: const Text('Please enter title, amount and date'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(ctx);
+              },
+              child: const Text('Okay'),
+            ),
+          ],
+        ),
+      );
+    }
+  }
+
   void _submitExpensesData() {
     final enteredAmount = double.tryParse(_amountController.text);
     final amountIsInvalid =
@@ -44,20 +80,7 @@ class _NewExpenseState extends State<NewExpense> {
     if (_titleController.text.trim().isEmpty ||
         amountIsInvalid ||
         _selectedDate == null) {
-      showDialog(
-        context: context,
-        builder: (ctx) => AlertDialog(
-          title: const Text('Oops! \nMore details needed'),
-          content: const Text('Please enter title, amount and date'),
-          actions: [
-            TextButton(
-                onPressed: () {
-                  Navigator.pop(ctx);
-                },
-                child: const Text('Okay'))
-          ],
-        ),
-      );
+      _showDialog();
       return;
     }
     widget.onAddExpense(
@@ -78,103 +101,114 @@ class _NewExpenseState extends State<NewExpense> {
     super.dispose();
   }
 
-  void _saveInputTitle(String inputValue) {
-    _titleController.text = inputValue;
-  }
+  // void _saveInputTitle(String inputValue) {
+  //   _titleController.text = inputValue;
+  // }
 
-  void _saveInputAmount(String inputValue) {
-    _amountController.text = inputValue;
-  }
+  // void _saveInputAmount(String inputValue) {
+  //   _amountController.text = inputValue;
+  // }
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 48, 16, 16),
-      child: Column(
-        children: [
-          TextField(
-            controller: _titleController,
-            maxLength: 50,
-            decoration: const InputDecoration(labelText: 'Title'),
-          ),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Expanded(
-                child: TextField(
-                  controller: _amountController,
-                  keyboardType: TextInputType.number,
-                  decoration: const InputDecoration(
-                    prefixText: '€ ',
-                    label: Text('Amount'),
-                  ),
+    final keyboardSpace = MediaQuery.of(context).viewInsets.bottom;
+    return LayoutBuilder(builder: (ctx, constraints) {
+      // final height = constraints.maxHeight;
+      // final width = constraints.maxWidth;
+
+      return SizedBox(
+        height: double.infinity,
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.fromLTRB(16, 16, 16, keyboardSpace + 16),
+            child: Column(
+              children: [
+                TextField(
+                  controller: _titleController,
+                  maxLength: 50,
+                  decoration: const InputDecoration(labelText: 'Title'),
                 ),
-              ),
-              // const SizedBox(width: 16),
-            ],
-          ),
-          const SizedBox(height: 16),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              DropdownButton(
-                  value: _selectedCategory,
-                  items: Category.values
-                      .map((category) => DropdownMenuItem(
-                            value: category,
-                            child: Text(
-                              category.name,
-                            ),
-                          ))
-                      .toList(),
-                  onChanged: (value) {
-                    if (value == null) return;
-                    setState(() {
-                      _selectedCategory = value;
-                    });
-                  }),
-              Expanded(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
+                Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    const SizedBox(
-                      height: 16,
+                    Expanded(
+                      child: TextField(
+                        controller: _amountController,
+                        keyboardType: TextInputType.number,
+                        decoration: const InputDecoration(
+                          prefixText: '€ ',
+                          label: Text('Amount'),
+                        ),
+                      ),
                     ),
-                    IconButton(
-                      onPressed: _dayPicker,
-                      icon: const Icon(Icons.calendar_today),
-                    ),
-                    Text(
-                      _selectedDate == null
-                          ? 'no date selected'
-                          : formatter.format(_selectedDate!),
-                    ),
+                    // const SizedBox(width: 16),
                   ],
                 ),
-              )
-            ],
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(0, 24, 0, 16),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: const Text('cancel'),
+                const SizedBox(height: 16),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    DropdownButton(
+                        value: _selectedCategory,
+                        items: Category.values
+                            .map((category) => DropdownMenuItem(
+                                  value: category,
+                                  child: Text(
+                                    category.name,
+                                  ),
+                                ))
+                            .toList(),
+                        onChanged: (value) {
+                          if (value == null) return;
+                          setState(() {
+                            _selectedCategory = value;
+                          });
+                        }),
+                    Expanded(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          const SizedBox(
+                            height: 16,
+                          ),
+                          IconButton(
+                            onPressed: _dayPicker,
+                            icon: const Icon(Icons.calendar_today),
+                          ),
+                          Text(
+                            _selectedDate == null
+                                ? 'no date selected'
+                                : formatter.format(_selectedDate!),
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
                 ),
-                ElevatedButton(
-                  onPressed: _submitExpensesData,
-                  child: const Text('Add Expense'),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 24, 0, 16),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: const Text('cancel'),
+                      ),
+                      ElevatedButton(
+                        onPressed: _submitExpensesData,
+                        child: const Text('Add Expense'),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
           ),
-        ],
-      ),
-    );
+        ),
+      );
+    });
   }
 }

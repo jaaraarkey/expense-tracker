@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'widgets/expenses.dart';
+// import 'package:flutter/services.dart';
 
 var kColorScheme = const ColorScheme(
   brightness: Brightness.light,
@@ -26,6 +27,9 @@ var kDarkColorScheme = const ColorScheme(
 );
 
 void main() {
+  // WidgetsFlutterBinding.ensureInitialized();
+  // SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
+  //     .then((fn) {
   runApp(
     MaterialApp(
       darkTheme: ThemeData.dark().copyWith(
@@ -130,4 +134,5 @@ void main() {
     ),
     // ),
   );
+  // });
 }
