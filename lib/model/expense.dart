@@ -21,6 +21,14 @@ const categoryIcons = {
   Category.other: Icons.category,
 };
 
+const categoryColors = {
+  Category.food: Colors.green,
+  Category.bills: Colors.red,
+  Category.clothes: Colors.blue,
+  Category.transport: Colors.amber,
+  Category.other: Colors.purple,
+};
+
 class Expense {
   Expense({
     required this.title,

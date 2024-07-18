@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-// import 'package:google_fonts/google_fonts.dart';
 import 'widgets/expenses.dart';
 
 var kColorScheme = const ColorScheme(
   brightness: Brightness.light,
   primary: Color.fromARGB(255, 0, 17, 255),
-  secondary: Colors.amberAccent,
+  secondary: Color.fromARGB(255, 225, 56, 255),
   surface: Colors.white,
   error: Color.fromARGB(255, 255, 32, 107),
   onPrimary: Colors.white,
@@ -15,17 +14,16 @@ var kColorScheme = const ColorScheme(
 );
 
 var kDarkColorScheme = const ColorScheme(
-    brightness: Brightness.dark,
-    primary: Colors.amberAccent,
-    secondary:
-        Color.fromARGB(255, 0, 17, 255), //Color.fromARGB(255, 255, 238, 2),
-    surface: Color.fromARGB(255, 7, 1, 20),
-    error: Color.fromARGB(255, 255, 32, 107),
-    onPrimary: Colors.black,
-    // onSurfaceVariant: Color(0xFFBDBDBD),
-    onSecondary: Colors.black,
-    onSurface: Colors.white,
-    onError: Colors.white);
+  brightness: Brightness.dark,
+  primary: Colors.amberAccent,
+  secondary: Color.fromARGB(255, 0, 17, 255),
+  surface: Color.fromARGB(255, 7, 1, 20),
+  error: Color.fromARGB(255, 255, 32, 107),
+  onPrimary: Colors.black,
+  onSecondary: Colors.black,
+  onSurface: Colors.white,
+  onError: Colors.white,
+);
 
 void main() {
   runApp(
@@ -77,7 +75,7 @@ void main() {
                 borderRadius: BorderRadius.circular(0),
                 side: const BorderSide().copyWith(
                     color: const Color.fromARGB(255, 45, 45, 45), width: 0)),
-            elevation: 1),
+            elevation: 8),
       ),
       theme: ThemeData(
         colorScheme: kColorScheme,

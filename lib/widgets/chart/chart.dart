@@ -39,11 +39,12 @@ class Chart extends StatelessWidget {
       margin: const EdgeInsets.all(16),
       padding: const EdgeInsets.symmetric(
         vertical: 16,
-        horizontal: 8,
+        horizontal: 16,
       ),
       width: double.infinity,
       height: 180,
       decoration: BoxDecoration(
+        color: isDarkMode ? Color.fromARGB(255, 35, 35, 35) : Colors.white,
         // gradient: LinearGradient(
         //   colors: [
         //     const Color.fromARGB(255, 44, 43, 43).withOpacity(0.7),
@@ -55,22 +56,23 @@ class Chart extends StatelessWidget {
         boxShadow: [
           BoxShadow(
             color: isDarkMode
-                ? Colors.white.withOpacity(.2)
-                : Colors.grey.withOpacity(.2),
-            blurRadius: 4,
+                ? Colors.white.withOpacity(0)
+                : ThemeData().primaryColor.withOpacity(.3),
+            blurRadius: 5,
             offset: const Offset(0, 4),
           ),
         ],
-        border: Border.all(),
+        // border: Border.all(),
+        // color: isDarkMode ? Colors.black : Colors.white,
         borderRadius: BorderRadius.circular(8),
-        gradient: LinearGradient(
-          colors: [
-            const Color.fromARGB(255, 225, 56, 255).withOpacity(.8),
-            const Color.fromARGB(255, 27, 3, 247).withOpacity(.9),
-          ],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
+        // gradient: LinearGradient(
+        //   colors: [
+        //     const Color.fromARGB(255, 225, 56, 255).withOpacity(.8),
+        //     const Color.fromARGB(255, 27, 3, 247).withOpacity(.9),
+        //   ],
+        //   begin: Alignment.topLeft,
+        //   end: Alignment.bottomRight,
+        // ),
       ),
       child: Column(
         children: [
@@ -95,7 +97,7 @@ class Chart extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 0),
                       child: Icon(categoryIcons[bucket.category],
-                          color: isDarkMode ? Colors.white : Colors.white),
+                          color: isDarkMode ? Colors.white : Colors.black),
                     ),
                   ),
                 )
