@@ -41,7 +41,7 @@ void main() {
               ),
               titleSmall: const TextStyle(
                 fontSize: 16,
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.normal,
               ),
               bodyLarge: const TextStyle(
                 fontSize: 16,
@@ -123,7 +123,7 @@ void main() {
                 borderRadius: BorderRadius.circular(0),
                 side: const BorderSide().copyWith(
                     color: const Color.fromARGB(255, 247, 243, 243), width: 0)),
-            elevation: 1),
+            elevation: 0),
       ),
       themeMode: ThemeMode.system,
       home: const Expenses(),

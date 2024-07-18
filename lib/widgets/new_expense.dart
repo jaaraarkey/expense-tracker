@@ -123,7 +123,7 @@ class _NewExpenseState extends State<NewExpense> {
                       .map((category) => DropdownMenuItem(
                             value: category,
                             child: Text(
-                              category.name.toUpperCase(),
+                              category.name,
                             ),
                           ))
                       .toList(),

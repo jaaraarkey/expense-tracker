@@ -61,9 +61,7 @@ class ExpenseBucket {
     this.category,
   ) : expenses = allExpenses
             .where((expense) => expense.category == category)
-            .toList() {
-    print(expenses);
-  }
+            .toList();
 
   double get totalExpenses {
     double total = 0;

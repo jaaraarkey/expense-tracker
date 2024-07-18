@@ -44,15 +44,8 @@ class Chart extends StatelessWidget {
       width: double.infinity,
       height: 180,
       decoration: BoxDecoration(
-        color: isDarkMode ? Color.fromARGB(255, 35, 35, 35) : Colors.white,
-        // gradient: LinearGradient(
-        //   colors: [
-        //     const Color.fromARGB(255, 44, 43, 43).withOpacity(0.7),
-        //     const Color.fromARGB(255, 200, 26, 26).withOpacity(0.7),
-        //   ],
-        //   begin: Alignment.bottomCenter,
-        //   end: Alignment.topCenter,
-        // ),
+        color:
+            isDarkMode ? const Color.fromARGB(255, 35, 35, 35) : Colors.white,
         boxShadow: [
           BoxShadow(
             color: isDarkMode
@@ -62,17 +55,7 @@ class Chart extends StatelessWidget {
             offset: const Offset(0, 4),
           ),
         ],
-        // border: Border.all(),
-        // color: isDarkMode ? Colors.black : Colors.white,
         borderRadius: BorderRadius.circular(8),
-        // gradient: LinearGradient(
-        //   colors: [
-        //     const Color.fromARGB(255, 225, 56, 255).withOpacity(.8),
-        //     const Color.fromARGB(255, 27, 3, 247).withOpacity(.9),
-        //   ],
-        //   begin: Alignment.topLeft,
-        //   end: Alignment.bottomRight,
-        // ),
       ),
       child: Column(
         children: [
